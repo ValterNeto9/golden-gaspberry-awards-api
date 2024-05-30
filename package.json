@@ -1,0 +1,33 @@
+{
+  "name": "golden-raspberry-awards-api",
+  "version": "1.0.0",
+  "description": "Lista de indicados e vencedores da categoria Pior Filme do Golden Raspberry Awards.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ValterNeto9/golden-raspberry-awards-api.git"
+  },
+  "keywords": [
+    "api",
+    "node.js",
+    "knex",
+    "sqlite"
+  ],
+  "author": "Valter Neto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ValterNeto9/golden-raspberry-awards-api/issues"
+  },
+  "homepage": "https://github.com/ValterNeto9/golden-raspberry-awards-api#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

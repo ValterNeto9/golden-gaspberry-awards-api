@@ -10,5 +10,11 @@
   },
   "include": [
     "src/**/*.ts"
+  ],
+  "exclude": [
+    "./jest.config.ts",
+    "./node_modules",
+    "./tests",
+    "./build"
   ]
 }

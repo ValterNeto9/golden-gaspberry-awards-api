@@ -4,7 +4,7 @@
   "description": "Lista de indicados e vencedores da categoria Pior Filme do Golden Raspberry Awards.",
   "main": "index.js",
   "scripts": {
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
+    "build": "tsc",
     "start": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "test": "jest"
   },
@@ -26,12 +26,16 @@
   "homepage": "https://github.com/ValterNeto9/golden-raspberry-awards-api#readme",
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "supertest": "^7.0.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@types/jest": "^29.5.12",
     "csv-parser": "^3.0.0",
     "express": "^4.19.2",
-    "knex": "^3.1.0"
+    "jest": "^29.7.0",
+    "knex": "^3.1.0",
+    "ts-jest": "^29.1.4"
   }
 }

@@ -10,10 +10,12 @@ interface CSVRow {
 exports.up = async function (knex: Knex) {
   // 1. Ler o arquivo CSV
   const readFile = promisify(fs.readFile);
-  const csvData = await readFile('./movielist.csv', 'utf8'); // Substitua 'data.csv' pelo nome do seu arquivo
+  const csvData = await readFile('./movielist.csv', 'utf8');
 
   // 2. Converter o CSV para um array de objetos
   const rows: CSVRow[] = [];
+  console.log('Rows:::', rows)
+
   await new Promise((resolve, reject) => {
     const parser = csvParser();
     parser.on('data', (row: CSVRow) => {
@@ -30,19 +32,19 @@ exports.up = async function (knex: Knex) {
   });
 
   // 3. Criar a tabela no banco de dados
-  await knex.schema.createTable('your_table_name', (table) => {
-    // 4. Definir as colunas da tabela com base nas colunas do CSV
-    // Exemplo:
-    table.string('column1').notNullable();
-    table.integer('column2');
-    // ... outras colunas
+  await knex.schema.createTable('movies', (table) => {
+    table.integer('year')
+    table.string('title')
+    table.string('studios')
+    table.string('producers')
+    table.string('winner')
   });
 
   // 5. Inserir os dados do CSV na tabela
-  await knex('your_table_name').insert(rows);
+  await knex('movies').insert(rows);
 };
 
 exports.down = async function (knex: Knex) {
   // Reverta a migration, excluindo a tabela
-  await knex.schema.dropTable('your_table_name');
+  await knex.schema.dropTable('movies');
 };

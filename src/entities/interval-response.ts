@@ -6,6 +6,6 @@ export interface Interval {
 }
 
 export interface IntervalsResponse {
-    min: Interval[]
-    max: Interval[]
+    min: Interval[] | undefined
+    max: Interval[] | undefined
 }

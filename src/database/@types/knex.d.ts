@@ -1,6 +1,6 @@
 declare module 'knex/types/tables' {
     interface Tables {
-        //movies: IMovies
+        movies: IMovies
     }
 
 }

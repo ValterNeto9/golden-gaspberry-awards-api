@@ -10,4 +10,7 @@ Lista de indicados e vencedores da categoria Pior Filme do Golden Raspberry Awar
 * rodar o comando para iniciar a migration do csv para o sqLite: `npm run knex:migrate`
 * rodar o projeto: `npm start`
 
+## Teste:
+* rodar o comando `npm test`
+
 Seguindo esses passos, será possível acessar o endpoint: [http://localhost:3000/worst-movie/awards-interval](http://localhost:3000/worst-movie/awards-interval)

@@ -8,14 +8,14 @@ export const getWinnerMoviesAndProducersIntervals = async (): Promise<IntervalsR
         const winningProductions = await Knex('movies')
             .select('year', 'winner', 'producers')
             .where('winner', "yes")
-            .orderBy('year', 'asc');
+            .orderBy('producers', 'asc');
 
         // 2. Criar um mapa para armazenar os produtores e seus anos de vitória
         const producerWinsMap: { [producer: string]: number[] } = {};
 
         // 3. Iterar sobre as produções vencedoras e adicionar ao mapa
         winningProductions.forEach((production) => {
-            const producers = production.producers.split(',').map((producer: string) =>
+            const producers = production.producers.split(/,\s+|\sand\s+/).map((producer: string) =>
                 producer.trim()
             );
             producers.forEach((producer: string) => {
@@ -31,7 +31,7 @@ export const getWinnerMoviesAndProducersIntervals = async (): Promise<IntervalsR
 
         for (const [producer, wins] of Object.entries(producerWinsMap)) {
             if (wins.length >= 2) {
-                const interval = wins[1] - wins[0];
+                const interval = Math.abs(wins[1] - wins[0]);
                 producerIntervals.push({
                     producer,
                     interval,

@@ -1,8 +1,15 @@
+import { Test } from "supertest";
 import { testServer } from "./jest.setup"
 
 describe('Get all producers award intervals', () => {
-    it('Get intervals', async () => {
-        const response = await testServer.get('/worst-movie/awards-interval')
+    let response: any;
+
+    beforeAll( async () => {
+        response = await testServer.get('/worst-movie/awards-interval')
+    })
+
+    it('Get intervals - testing body structure', async () => {
+        
         const { statusCode, body } = response
 
         expect(statusCode).toBe(200)
@@ -39,5 +46,14 @@ describe('Get all producers award intervals', () => {
                 ])
             );
         }
+    })
+
+    it('Get intervals - testing return of min and max interval values', async () => {
+        const { statusCode, body } = response
+
+        expect(statusCode).toBe(200)
+
+        expect(body.min[0].interval).toEqual(1)
+        expect(body.max[0].interval).toEqual(13)
     })
 })

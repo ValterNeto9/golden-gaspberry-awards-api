@@ -1,4 +1,3 @@
-import { promisify } from 'util';
 import * as fs from 'fs';
 import { Knex } from 'knex';
 import { parse } from 'csv-parse';
@@ -6,45 +5,49 @@ import { parse } from 'csv-parse';
 interface CSVRow {
   [key: string]: string | number; // Define o tipo de cada coluna
 }
+export const migrations = async function (knex: Knex) {
+  // 1. Ler o arquivo CSV usando stream
+  const csvStream = fs.createReadStream(`${__dirname}/movielist.csv`, 'utf8');
 
-exports.up = async function (knex: Knex) {
-  // 1. Ler o arquivo CSV
-  const readFile = promisify(fs.readFile);
-  const csvData = await readFile(`${__dirname}/movielist.csv`, 'utf8');
-
-  // 2. Converter o CSV para um array de objetos
+  // 2. Converter o CSV para um array de objetos com validação
   const rows: CSVRow[] = [];
+  let errorOccurred = false;
 
-  await new Promise((resolve, reject) => {
-    const parser = parse({
-      delimiter: ';',
-      columns: true
-    });
-    parser.on('data', (row: CSVRow) => {
+  csvStream
+    .pipe(parse({ delimiter: ';', columns: true }))
+    .on('data', (row: CSVRow) => {
       rows.push(row);
-    });
-    parser.on('end', () => {
-      resolve(true);
-    });
-    parser.on('error', (err: any) => {
-      reject(err);
-    });
-    parser.write(csvData);
-    parser.end();
-  });
+    })
+    .on('error', (err: any) => {
+      console.error('Erro durante o parsing do CSV:', err);
+      errorOccurred = true;
+    })
+    .on('end', async () => {
+      if (errorOccurred) {
+        console.error('Erro durante a migração. A migração foi interrompida.');
+        return;
+      }
 
-  // 3. Criar a tabela no banco de dados
-  await knex.schema.createTable('movies', (table) => {
-    table.bigIncrements('id').primary().index();
-    table.integer('year')
-    table.string('title')
-    table.string('studios')
-    table.string('producers')
-    table.string('winner')
-  });
+      try {
+        // 3. Criar a tabela no banco de dados
+        await knex.schema.createTable('movies', (table) => {
+          table.bigIncrements('id').primary().index();
+          table.integer('year')
+          table.string('title')
+          table.string('studios')
+          table.string('producers')
+          table.string('winner')
+        });
 
-  // 5. Inserir os dados do CSV na tabela
-  await knex('movies').insert(rows);
+        // 5. Inserir os dados do CSV na tabela
+        await knex('movies').insert(rows);
+        console.log('Dados migrados com sucesso!');
+        
+      } catch (error) {
+        console.error('Erro durante a inserção dos dados:', error);
+      }
+    });
+    csvStream.close();
 };
 
 exports.down = async function (knex: Knex) {

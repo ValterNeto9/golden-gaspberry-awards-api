@@ -1,12 +1,12 @@
 import { knex } from 'knex';
 
-import { development, test } from './Environments';
+import config from './knexfile';
+import { migrations } from './migration-csv/migration';
 
-const getEnvironment = () => {
-  switch (process.env.ENVIRONMENT) {
-    case 'test': return test;
-    default: return development;
-  }
-};
+const db = knex(config);
 
-export const Knex = knex(getEnvironment());
+export const initDB = async () => {
+  await migrations(db)
+}
+
+export const knexDB = db

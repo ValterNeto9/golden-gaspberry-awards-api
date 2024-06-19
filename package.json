@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
-    "test": "jest",
-    "knex:migrate": "knex --knexfile ./src/database/Environments.ts migrate:latest"
+    "test": "jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",

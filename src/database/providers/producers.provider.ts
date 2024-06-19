@@ -1,11 +1,12 @@
-import { Knex } from "..";
+import { knexDB } from "..";
 import { Interval, IntervalsResponse } from "../../entities/interval-response";
+import { IMovies } from "../models";
 
 export const getWinnerMoviesAndProducersIntervals = async (): Promise<IntervalsResponse | undefined> => {
 
     try {
         // 1. Obter todas as produções vencedoras, ordenadas por ano
-        const winningProductions = await Knex('movies')
+        const winningProductions = await knexDB('movies')
             .select('year', 'winner', 'producers')
             .where('winner', "yes")
             .orderBy('producers', 'asc');
@@ -14,7 +15,7 @@ export const getWinnerMoviesAndProducersIntervals = async (): Promise<IntervalsR
         const producerWinsMap: { [producer: string]: number[] } = {};
 
         // 3. Iterar sobre as produções vencedoras e adicionar ao mapa
-        winningProductions.forEach((production) => {
+        winningProductions.forEach((production: Omit<IMovies,' id'>) => {
             const producers = production.producers.split(/,\s+|\sand\s+/).map((producer: string) =>
                 producer.trim()
             );

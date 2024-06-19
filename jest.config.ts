@@ -5,10 +5,7 @@ const config: Config = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
-  coverageReporters: ['json'],
-  setupFilesAfterEnv: [
-    './tests/jest.setup.ts'
-  ],
+  coverageReporters: ['json'], 
   testMatch: [
     '<rootDir>/tests/**/*.test.ts'
   ],

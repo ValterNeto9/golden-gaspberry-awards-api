@@ -5,13 +5,10 @@
         client: 'sqlite3',
         useNullAsDefault: true,
         connection: {
-            filename: path.resolve(__dirname, '..', '..', 'database.sqlite')
+            filename: ':memory:'
         },
         migrations: {
             directory: path.resolve(__dirname, 'migration-csv'),
-        },
-        seeds: {
-            directory: path.resolve(__dirname, 'seeds'),
         },
         pool: {
             afterCreate: (connection: any, done: Function) => {

@@ -35,8 +35,8 @@ export const getWinnerMoviesAndProducersIntervals = async (): Promise<IntervalsR
                 producerIntervals.push({
                     producer,
                     interval,
-                    previousWin: wins[0],
-                    followingWin: wins[1],
+                    previousWin: wins[0] < wins[1] ? wins[0] : wins[1],
+                    followingWin: wins[0] > wins[1] ? wins[0] : wins[1],
                 });
             }
         }

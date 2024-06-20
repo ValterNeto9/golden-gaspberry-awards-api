@@ -5,7 +5,7 @@
         client: 'sqlite3',
         useNullAsDefault: true,
         connection: {
-            filename: path.resolve(__dirname, '..', '..', 'database.sqlite')
+            filename: ':memory:'
         },
         migrations: {
             directory: path.resolve(__dirname, 'migration-csv'),
@@ -23,5 +23,7 @@
 
     export const test: Knex.Config = {
         ...development,
-        connection: ':memory:',
+        connection: {
+            filename: ':memory:',
+        }
     };
